@@ -113,21 +113,21 @@ int main(int argc, char *argv[])
         /* Cannot fail because no OpenSSL function fails ??? */
         init_openssl_library();
 
+        // create a new SSL_CTX object as framework for TLS/SSL or DTLS enabled functions
         /* https://www.openssl.org/docs/ssl/SSL_CTX_new.html */
-        const SSL_METHOD *method = SSLv23_method();
+        const SSL_METHOD *method = TLS_method();
+        // const SSL_METHOD *method = SSLv23_method(); obsolete call so replaced with above.
         // ssl_err = ERR_get_error();
-
-        /* http://www.openssl.org/docs/ssl/ctx_new.html */
         ctx = SSL_CTX_new(method);
         /* ctx = SSL_CTX_new(TLSv1_method()); */
         // ssl_err = ERR_get_error();
 
         /* https://www.openssl.org/docs/ssl/ctx_set_verify.html */
-        SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, verify_callback);
+        SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, verify_callback); // set peer certificate verification parameters
         /* Cannot fail ??? */
 
         /* https://www.openssl.org/docs/ssl/ctx_set_verify.html */
-        SSL_CTX_set_verify_depth(ctx, 5);
+        SSL_CTX_set_verify_depth(ctx, 5); // sets the maximum depth for the certificate chain verification that shall be allowed for ctx.
         /* Cannot fail ??? */
 
         /* Remove the most egregious. Because SSLv2 and SSLv3 have been      */
@@ -404,7 +404,8 @@ void print_san_name(const char *label, X509 *const cert)
         OPENSSL_free(utf8);
 
     if (!success)
-        fprintf(stdout, "  %s: <not available>\n", label);
+        X509_get_issuer_name
+            fprintf(stdout, "  %s: <not available>\n", label);
 }
 
 int verify_callback(int preverify, X509_STORE_CTX *x509_ctx)
