@@ -1,3 +1,5 @@
+/* compile with gcc openssl-bio-fetch.c `pkg-config --cflags --libs openssl` -o openssl-bio-fetch */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
