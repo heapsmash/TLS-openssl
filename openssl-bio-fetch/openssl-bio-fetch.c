@@ -287,13 +287,6 @@ void init_openssl_library(void)
     /*  dynamically configured ENGINE.                              */
     // OPENSSL_config(NULL);
     /* Cannot fail ??? */
-
-    /* Include <openssl/opensslconf.h> to get this define     */
-#if defined(OPENSSL_THREADS)
-    /* TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO */
-    /* https://www.openssl.org/docs/crypto/threads.html */
-    fprintf(stdout, "Warning: thread locking is not implemented\n");
-#endif
 }
 
 void print_cn_name(const char *label, X509_NAME *const name)
